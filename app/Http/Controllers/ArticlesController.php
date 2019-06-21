@@ -12,9 +12,25 @@ class ArticlesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // return response()->json(Articles::orderBy('created_at', 'desc')->get());
+
+        $select = [
+            'users.id', 
+            'users.name', 
+            'users.email', 
+            'articles.title', 
+            'articles.body', 
+            'articles.created_at'
+        ];
+
+        $articles = Articles::select($select)
+                    ->leftJoin('users', 'articles.uid', '=', 'users.id')
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        return response()->json($articles);   
     }
 
     /**
@@ -34,8 +50,17 @@ class ArticlesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
+    { 
+        $request->validate([
+            'title' => 'required',
+            'body' => 'required',
+        ]);
+
+        $data = array_merge($request->all(), ['uid' => $request->user()->id]);
+
+        $article = Articles::create($data);
+
+        return response()->json($article);
     }
 
     /**
@@ -46,7 +71,7 @@ class ArticlesController extends Controller
      */
     public function show(Articles $articles)
     {
-        //
+        return response()->json($articles);
     }
 
     /**
@@ -81,5 +106,25 @@ class ArticlesController extends Controller
     public function destroy(Articles $articles)
     {
         //
+    }
+
+    public function getArticlesByUserId($id) {
+
+        $select = [
+            'users.id', 
+            'users.name', 
+            'users.email', 
+            'articles.title', 
+            'articles.body', 
+            'articles.created_at'
+        ];
+
+        $articles = Articles::select($select)
+                    ->leftJoin('users', 'articles.uid', '=', 'users.id')
+                    ->where('users.id', $id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+
+        return response()->json($articles);                    
     }
 }

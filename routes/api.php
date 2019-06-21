@@ -16,3 +16,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('articles/{articles}', 'ArticlesController@show');
+Route::get('articles/', 'ArticlesController@index');
+
+Route::get('articles-by-user/{id}', 'ArticlesController@getArticlesByUserId');
+
+Route::group(['middleware' => 'auth:api'], function() {    
+
+    Route::get('users/{id}', 'UserController@show');
+
+    Route::post('articles/', 'ArticlesController@store')->name('newArticle');
+});

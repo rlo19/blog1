@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth');        
     }
 
     /**
@@ -21,8 +21,24 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (!$request->session()->exists('users')) {
+            
+            $uid = $request->user()->id;
+
+            $api_token_key = $uid.'_api_token';
+
+            $request->session()->put($api_token_key, $request->user()->api_token);
+
+            $request->session()->put('uid', $uid);
+        }  
+
         return view('home');
+    }
+
+    public function profile(Request $request)
+    {
+        return view('profile');
     }
 }
