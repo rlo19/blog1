@@ -18,6 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('articles/{articles}', 'ArticlesController@show');
+
+Route::get('articles/paginate/{offset}/{limit?}', 'ArticlesController@showLimited');
+
 Route::get('articles/', 'ArticlesController@index');
 
 Route::get('articles-by-user/{id}', 'ArticlesController@getArticlesByUserId');

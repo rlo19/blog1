@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center" v-for="data in datas">            
+        <div class="row justify-content-center">            
             <div class="col-md-2">
                 <div class="card">
                     <div class="card-body">
@@ -9,10 +9,10 @@
                             Image                       
                         </div>
                         <div class="col-md-12">
-                            {{data.name}}                     
+                            {{this.datas.name}}                     
                         </div>
                         <div class="col-md-12">
-                            {{data.created_at}}                    
+                            {{this.datas.created_at}}                    
                         </div>  
                     </div>
                 </div>
@@ -20,11 +20,11 @@
 
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{data.title}}</div>
+                    <div class="card-header">{{this.datas.title}}</div>
 
                     <div class="card-body">
 
-                        {{data.body}}
+                        {{this.datas.body}}
 
                     </div>
                 </div>
@@ -35,20 +35,18 @@
 </template>
 
 <script>
-    export default {        
+    export default {
         data() {
             return {
-                datas: '',
-                offset: this.parentOffset,                             
+                datas: ''
             }
         },
         props: [
-            'parentOffset'
-        ],        
+            'id'
+        ],
         mounted() {
-
             axios
-              .get('api/articles/paginate/' + this.offset + '/')
+              .get('api/articles/' + this.id)
               .then(response => {
                 this.datas = response.data;
               })

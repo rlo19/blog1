@@ -28,6 +28,8 @@ Vue.component('home-component', require('./components/HomeComponent.vue').defaul
 Vue.component('home-blog-component', require('./components/HomeBlogComponent.vue').default);
 Vue.component('home-new-blog-component', require('./components/HomeNewBlogComponent.vue').default);
 
+
+Vue.component('blog-format-component', require('./components/BlogFormatComponent.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

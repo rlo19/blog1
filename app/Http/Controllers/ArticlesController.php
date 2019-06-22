@@ -127,4 +127,25 @@ class ArticlesController extends Controller
 
         return response()->json($articles);                    
     }
+
+    public function showLimited($offset, $limit = 5) {
+
+        $select = [
+            'users.id', 
+            'users.name', 
+            'users.email', 
+            'articles.title', 
+            'articles.body', 
+            'articles.created_at'
+        ];
+
+        $articles = Articles::select($select)
+                    ->leftJoin('users', 'articles.uid', '=', 'users.id')
+                    ->orderBy('created_at', 'desc')
+                    ->limit($limit)
+                    ->offset($offset)
+                    ->get();
+
+        return response()->json($articles);
+    }
 }
