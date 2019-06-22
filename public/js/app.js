@@ -2011,14 +2011,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      token: this.apiToken,
-      componentKey: 0,
       offset: 0,
       bottom: false,
       range: 1
     };
   },
-  props: ['apiToken'],
+  props: ['uid'],
   watch: {
     bottom: function bottom() {
       console.log('balik bottom');
@@ -2031,12 +2029,6 @@ __webpack_require__.r(__webpack_exports__);
     this.debouncedBottom = _.debounce(this.addArticles, 500);
   },
   methods: {
-    childListener: function childListener(childReply) {
-      this.forceRerender();
-    },
-    forceRerender: function forceRerender() {
-      this.componentKey += 1;
-    },
     scroll: function scroll() {
       var _this = this;
 
@@ -2124,11 +2116,12 @@ __webpack_require__.r(__webpack_exports__);
     return {
       title: '',
       body: '',
-      id: '',
-      range: 0
+      aid: '',
+      range: 0,
+      token: ''
     };
   },
-  props: ['token'],
+  props: ['uid'],
   methods: {
     submitForm: function submitForm(e) {
       var _this = this;
@@ -2145,10 +2138,8 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post('api/articles/', form_data, auth).then(function (response) {
         if (response.status === 200) {
-          _this.id = response.data.id;
+          _this.aid = response.data.id;
           _this.range += 1;
-
-          _this.replyToParent(response.status);
 
           _this.clearForm();
         }
@@ -2159,10 +2150,14 @@ __webpack_require__.r(__webpack_exports__);
     clearForm: function clearForm() {
       this.$data.title = '';
       this.$data.body = '';
-    },
-    replyToParent: function replyToParent(status) {
-      this.$emit("childListener", status);
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+
+    axios.get('/api/users/apitoken/' + this.uid).then(function (response) {
+      _this2.token = response.data.api_token;
+    });
   }
 });
 
@@ -37788,10 +37783,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("home-new-blog-component", {
-        attrs: { token: _vm.token },
-        on: { childListener: _vm.childListener }
-      }),
+      _c("home-new-blog-component", { attrs: { uid: _vm.uid } }),
       _vm._v(" "),
       _vm._l(_vm.range, function(n) {
         return _c("home-blog-component", {
@@ -37920,7 +37912,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._l(_vm.range, function(n) {
-        return _c("blog-format-component", { key: n, attrs: { id: _vm.id } })
+        return _c("blog-format-component", { key: n, attrs: { id: _vm.aid } })
       })
     ],
     2
@@ -50334,15 +50326,14 @@ if (token) {
 /*!*********************************************************!*\
   !*** ./resources/js/components/BlogFormatComponent.vue ***!
   \*********************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _BlogFormatComponent_vue_vue_type_template_id_e26092ae___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BlogFormatComponent.vue?vue&type=template&id=e26092ae& */ "./resources/js/components/BlogFormatComponent.vue?vue&type=template&id=e26092ae&");
 /* harmony import */ var _BlogFormatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BlogFormatComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/BlogFormatComponent.vue?vue&type=script&lang=js&");
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _BlogFormatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _BlogFormatComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
 
@@ -50372,7 +50363,7 @@ component.options.__file = "resources/js/components/BlogFormatComponent.vue"
 /*!**********************************************************************************!*\
   !*** ./resources/js/components/BlogFormatComponent.vue?vue&type=script&lang=js& ***!
   \**********************************************************************************/
-/*! no static exports found */
+/*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

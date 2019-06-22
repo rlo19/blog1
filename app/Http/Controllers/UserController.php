@@ -84,4 +84,17 @@ class UserController extends Controller
     {
         //
     }
+
+    public function getApiToken($id) {
+
+        $this->middleware('auth');
+
+        $arr = User::find($id);                   
+
+        $arr->makeVisible('api_token');
+
+        $api_token['api_token'] = $arr->api_token;
+
+        return response()->json($api_token);
+    }
 }

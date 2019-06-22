@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <blog-format-component v-for="n in range" :key="n" v-bind:id="id"></blog-format-component>
+        <blog-format-component v-for="n in range" :key="n" v-bind:id="aid"></blog-format-component>
     </div>
 </template>
 
@@ -47,12 +47,13 @@
             return {
                 title: '',
                 body: '',
-                id: '',
-                range: 0
+                aid: '',
+                range: 0,
+                token: ''
             }
         },
         props: [
-            'token'
+            'uid'
         ],
         methods: {
             submitForm: function(e) {
@@ -71,10 +72,9 @@
                   .then(response => {
 
                     if(response.status === 200) {
-                        this.id = response.data.id;
+                        this.aid = response.data.id;
                         this.range += 1;
 
-                        this.replyToParent(response.status);
                         this.clearForm();
                     }
 
@@ -85,10 +85,14 @@
             clearForm : function() {
                 this.$data.title = '';
                 this.$data.body = '';
-            },
-            replyToParent : function(status) {
-                this.$emit("childListener", status);
             }
         },
+        mounted() {
+
+            axios.get('/api/users/apitoken/' + this.uid)
+                 .then(response => {
+                    this.token = response.data.api_token;
+                 })
+        }
     }
 </script>
