@@ -86,17 +86,14 @@ class UserController extends Controller
         //
     }
 
-    public function getApiToken($id) {
+    public function getApiToken(Request $request) {
 
-        // if (Auth::check()) {
-            
-            $arr = User::find($id);                   
+        $arr = User::find($request->user()->id);                   
 
-            $arr->makeVisible('api_token');
+        $arr->makeVisible('api_token');
 
-            $api_token['api_token'] = $arr->api_token;
+        $api_token['api_token'] = $arr->api_token;
 
-            return response()->json($api_token);
-        // }        
+        return response()->json($api_token);
     }
 }
