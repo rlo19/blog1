@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <blog-format-component v-for="n in range" :key="n" v-bind:id="aid"></blog-format-component>
+        <blog-format-component v-for="n in aidArr.slice().reverse()" :key="n" v-bind:id="n"></blog-format-component>
     </div>
 </template>
 
@@ -47,7 +47,8 @@
             return {
                 title: '',
                 body: '',
-                aid: '',
+                aid: 0,
+                aidArr: [],
                 range: 0,
                 token: ''
             }
@@ -72,7 +73,8 @@
                   .then(response => {
 
                     if(response.status === 200) {
-                        this.aid = response.data.id;
+                        this.aidArr[this.range] = response.data.id;
+
                         this.range += 1;
 
                         this.clearForm();
@@ -89,7 +91,7 @@
         },
         mounted() {
 
-            axios.get('/api/users/apitoken/' + this.uid)
+            axios.get('/users/apitoken/' + this.uid)
                  .then(response => {
                     this.token = response.data.api_token;
                  })

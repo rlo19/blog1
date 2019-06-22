@@ -27,10 +27,6 @@ class HomeController extends Controller
             
             $uid = $request->user()->id;
 
-            $api_token_key = $uid.'_api_token';
-
-            $request->session()->put($api_token_key, $request->user()->api_token);
-
             $request->session()->put('uid', $uid);
         }  
 

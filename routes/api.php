@@ -25,8 +25,6 @@ Route::get('articles/', 'ArticlesController@index');
 
 Route::get('articles-by-user/{id}', 'ArticlesController@getArticlesByUserId');
 
-Route::get('users/apitoken/{id}', 'UserController@getApiToken');
-
 Route::group(['middleware' => 'auth:api'], function() {    
 
     Route::get('users/{id}', 'UserController@show');

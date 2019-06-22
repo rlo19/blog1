@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -87,14 +88,15 @@ class UserController extends Controller
 
     public function getApiToken($id) {
 
-        $this->middleware('auth');
+        // if (Auth::check()) {
+            
+            $arr = User::find($id);                   
 
-        $arr = User::find($id);                   
+            $arr->makeVisible('api_token');
 
-        $arr->makeVisible('api_token');
+            $api_token['api_token'] = $arr->api_token;
 
-        $api_token['api_token'] = $arr->api_token;
-
-        return response()->json($api_token);
+            return response()->json($api_token);
+        // }        
     }
 }

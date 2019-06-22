@@ -22,9 +22,9 @@
         ],
         watch: {
             bottom: function() {
-                console.log('balik bottom');
+
                 this.bottom = false;
-                console.log('false na ulit');
+
                 this.debouncedBottom();
             }
         },

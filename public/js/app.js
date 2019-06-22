@@ -2019,9 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
   props: ['uid'],
   watch: {
     bottom: function bottom() {
-      console.log('balik bottom');
       this.bottom = false;
-      console.log('false na ulit');
       this.debouncedBottom();
     }
   },
@@ -2116,7 +2114,8 @@ __webpack_require__.r(__webpack_exports__);
     return {
       title: '',
       body: '',
-      aid: '',
+      aid: 0,
+      aidArr: [],
       range: 0,
       token: ''
     };
@@ -2138,7 +2137,7 @@ __webpack_require__.r(__webpack_exports__);
       };
       axios.post('api/articles/', form_data, auth).then(function (response) {
         if (response.status === 200) {
-          _this.aid = response.data.id;
+          _this.aidArr[_this.range] = response.data.id;
           _this.range += 1;
 
           _this.clearForm();
@@ -2155,7 +2154,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this2 = this;
 
-    axios.get('/api/users/apitoken/' + this.uid).then(function (response) {
+    axios.get('/users/apitoken/' + this.uid).then(function (response) {
       _this2.token = response.data.api_token;
     });
   }
@@ -37911,8 +37910,8 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _vm._l(_vm.range, function(n) {
-        return _c("blog-format-component", { key: n, attrs: { id: _vm.aid } })
+      _vm._l(_vm.aidArr.slice().reverse(), function(n) {
+        return _c("blog-format-component", { key: n, attrs: { id: n } })
       })
     ],
     2
