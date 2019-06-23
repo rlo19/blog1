@@ -42,11 +42,11 @@
             }
         },
         props: [
-            'id'
+            'aid'
         ],
         mounted() {
             axios
-              .get('api/articles/' + this.id)
+              .get('api/articles/' + this.aid)
               .then(response => {
                 this.datas = response.data;
               })

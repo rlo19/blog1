@@ -46,13 +46,8 @@
 
                 const limit = 5;
 
-                axios
-                  .get('api/articles/paginate/' + this.offset + '/')
-                  .then(response => {
-                    this.datas = response.data;
-                    this.offset += limit;
-                    this.range += 1;
-                  })                
+                this.offset += limit;
+                this.range += 1;           
             }
         },
         mounted() {

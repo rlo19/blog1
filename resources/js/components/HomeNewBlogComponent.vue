@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <blog-format-component v-for="n in aidArr.slice().reverse()" :key="n" v-bind:id="n"></blog-format-component>
+        <blog-format-component v-for="n in aidArr.slice().reverse()" :key="n" v-bind:aid="n"></blog-format-component>
     </div>
 </template>
 

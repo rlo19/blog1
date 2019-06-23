@@ -1880,11 +1880,11 @@ __webpack_require__.r(__webpack_exports__);
       datas: ''
     };
   },
-  props: ['id'],
+  props: ['aid'],
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('api/articles/' + this.id).then(function (response) {
+    axios.get('api/articles/' + this.aid).then(function (response) {
       _this.datas = response.data;
     });
   }
@@ -2040,14 +2040,9 @@ __webpack_require__.r(__webpack_exports__);
       };
     },
     addArticles: function addArticles() {
-      var _this2 = this;
-
       var limit = 5;
-      axios.get('api/articles/paginate/' + this.offset + '/').then(function (response) {
-        _this2.datas = response.data;
-        _this2.offset += limit;
-        _this2.range += 1;
-      });
+      this.offset += limit;
+      this.range += 1;
     }
   },
   mounted: function mounted() {
@@ -37911,7 +37906,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._l(_vm.aidArr.slice().reverse(), function(n) {
-        return _c("blog-format-component", { key: n, attrs: { id: n } })
+        return _c("blog-format-component", { key: n, attrs: { aid: n } })
       })
     ],
     2

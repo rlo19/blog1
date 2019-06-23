@@ -69,8 +69,23 @@ class ArticlesController extends Controller
      * @param  \App\Articles  $articles
      * @return \Illuminate\Http\Response
      */
-    public function show(Articles $articles)
+    public function show($aid)
     {
+        $select = [
+            'users.id', 
+            'users.name', 
+            'users.email', 
+            'articles.title', 
+            'articles.body', 
+            'articles.created_at'
+        ];
+
+        $articles = Articles::select($select)
+                    ->leftJoin('users', 'articles.uid', '=', 'users.id')
+                    ->where('articles.id', $aid)                    
+                    ->orderBy('created_at', 'desc')
+                    ->first();
+
         return response()->json($articles);
     }
 
