@@ -13,7 +13,7 @@ class ArticlesController extends Controller
             'users.id', 
             'users.name', 
             'users.email',
-            'articles.id', 
+            'articles.id as aid', 
             'articles.title', 
             'articles.body', 
             'articles.created_at'
@@ -136,13 +136,18 @@ class ArticlesController extends Controller
         return response()->json($articles);                    
     }
 
-    public function showLimited($offset, $limit = 5) {
+    public function showLimited($offset, $uid = 0) {
+
+        $limit = 5;
 
         $articles = Articles::select($this->select)
                     ->leftJoin('users', 'articles.uid', '=', 'users.id')
                     ->orderBy('created_at', 'desc')
                     ->limit($limit)
                     ->offset($offset)
+                    ->when($uid, function($query) use ($uid) {
+                        return $query->where('users.id', $uid);
+                    })
                     ->get();
 
         return response()->json($articles);
