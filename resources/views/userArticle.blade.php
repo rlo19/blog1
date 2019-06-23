@@ -2,6 +2,6 @@
 
 @section('content')
 
-<blog-format-component uid="{{ $uid }}"></blog-format-component>
+<blog-format-component uid="{{ $uid }}" aid="{{ $aid }}"></blog-format-component>
 
 @endsection

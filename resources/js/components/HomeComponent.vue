@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <home-new-blog-component v-bind:id="id"></home-new-blog-component>
+        <home-new-blog-component v-bind:uid="uid"></home-new-blog-component>
 
         <blog-component v-bind:parentOffset="offset" v-for="n in range" :key="n"></blog-component>
     </div>
@@ -18,7 +18,7 @@
             }
         },
         props: [
-            'id'
+            'uid'
         ],
         watch: {
             bottom: function() {

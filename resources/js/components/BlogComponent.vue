@@ -9,7 +9,7 @@
                             Image                       
                         </div>
                         <div class="col-md-12">
-                            <a :href="data.id">{{data.name}}</a>                   
+                            <a :href="profileUrl + data.id">{{data.name}}</a>                   
                         </div>
                         <div class="col-md-12">
                             {{data.created_at}}                    
@@ -20,7 +20,7 @@
 
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header"><a :href="data.uid/data.aid">{{data.title}}</a></div>
+                    <div class="card-header"><a :href="profileUrl + data.id + '/' + data.aid">{{data.title}}</a></div>
 
                     <div class="card-body">
 
@@ -41,7 +41,8 @@
                 datas: '',
                 offset: this.parentOffset, 
                 blogUrl: window.location.origin + '/profile/' + this.uid,
-                uidForPageinate: 0
+                uidForPageinate: 0,
+                profileUrl: window.location.origin + '/profile/',
             }
         },
         props: [
@@ -57,7 +58,7 @@
             axios
               .get(window.location.origin + '/api/articles/paginate/' + this.offset + '/' + this.uidForPageinate)
               .then(response => {
-                this.datas = response.data;
+                this.datas = response.data;                
               })
         }
     }

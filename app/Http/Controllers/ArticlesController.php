@@ -20,12 +20,16 @@ class ArticlesController extends Controller
         ];
     }
 
-    public function userArticle(Request $request, $id, $aid)
+    public function userArticle(Request $request, $uid, $aid)
     {        
 
         // print_r(Articles::find(7));die;
+        $data = [
+            'uid' => $uid,
+            'aid' => $aid            
+        ];
 
-        return view('userArticle', ['id' => $id]);
+        return view('userArticle', $data);
     }
 
     /**
@@ -80,11 +84,17 @@ class ArticlesController extends Controller
      * @param  \App\Articles  $articles
      * @return \Illuminate\Http\Response
      */
-    public function show($aid)
+    public function show($uid, $aid)
     {
+
+        $where = [
+            'articles.id' => $aid,
+            'users.id' => $uid
+        ];
+
         $articles = Articles::select($this->select)
                     ->leftJoin('users', 'articles.uid', '=', 'users.id')
-                    ->where('articles.id', $aid)                    
+                    ->where($where)                    
                     ->orderBy('created_at', 'desc')
                     ->first();
 
@@ -136,7 +146,7 @@ class ArticlesController extends Controller
         return response()->json($articles);                    
     }
 
-    public function showLimited($offset, $uid = 0) {
+    public function showLimited($offset, $uid = false) {
 
         $limit = 5;
 

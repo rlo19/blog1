@@ -1880,7 +1880,8 @@ __webpack_require__.r(__webpack_exports__);
       datas: '',
       offset: this.parentOffset,
       blogUrl: window.location.origin + '/profile/' + this.uid,
-      uidForPageinate: 0
+      uidForPageinate: 0,
+      profileUrl: window.location.origin + '/profile/'
     };
   },
   props: ['parentOffset', 'uid'],
@@ -1944,18 +1945,33 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      datas: ''
+      datas: '',
+      error: false,
+      show: false,
+      profileUrl: ''
     };
   },
-  props: ['aid'],
+  props: ['aid', 'uid'],
   mounted: function mounted() {
     var _this = this;
 
-    axios.get(window.location.origin + '/api/articles/' + this.aid).then(function (response) {
+    axios.get(window.location.origin + '/api/articles/single/' + this.uid + '/' + this.aid).then(function (response) {
       _this.datas = response.data;
+
+      if (typeof _this.datas.name === "undefined") {
+        _this.show = false;
+        _this.error = true;
+      } else {
+        _this.show = true;
+        _this.error = false;
+        _this.profileUrl = window.location.origin + '/profile/' + _this.datas.id + '/';
+      }
     });
   }
 });
@@ -2022,7 +2038,7 @@ __webpack_require__.r(__webpack_exports__);
       range: 1
     };
   },
-  props: ['id'],
+  props: ['uid'],
   watch: {
     bottom: function bottom() {
       this.bottom = false;
@@ -37597,7 +37613,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "col-md-12" }, [
-                _c("a", { attrs: { href: data.id } }, [
+                _c("a", { attrs: { href: _vm.profileUrl + data.id } }, [
                   _vm._v(_vm._s(data.name))
                 ])
               ]),
@@ -37616,9 +37632,11 @@ var render = function() {
         _c("div", { staticClass: "col-md-8" }, [
           _c("div", { staticClass: "card" }, [
             _c("div", { staticClass: "card-header" }, [
-              _c("a", { attrs: { href: data.uid / data.aid } }, [
-                _vm._v(_vm._s(data.title))
-              ])
+              _c(
+                "a",
+                { attrs: { href: _vm.profileUrl + data.id + "/" + data.aid } },
+                [_vm._v(_vm._s(data.title))]
+              )
             ]),
             _vm._v(" "),
             _c("div", { staticClass: "card-body" }, [
@@ -37667,53 +37685,57 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row justify-content-center" }, [
-      _c("div", { staticClass: "col-md-2" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "col-md-12" }, [
-              _vm._v(
-                "\n                        Image                       \n                    "
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-12" }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(this.datas.name) +
-                  "                     \n                    "
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "col-md-12" }, [
-              _vm._v(
-                "\n                        " +
-                  _vm._s(this.datas.created_at) +
-                  "                    \n                    "
-              )
+    _vm.show
+      ? _c("div", { staticClass: "row justify-content-center" }, [
+          _c("div", { staticClass: "col-md-2" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-body" }, [
+                _c("div", { staticClass: "col-md-12" }, [
+                  _vm._v(
+                    "\n                        Image                       \n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-12" }, [
+                  _c("a", { attrs: { href: _vm.profileUrl } }, [
+                    _vm._v(_vm._s(this.datas.name))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "col-md-12" }, [
+                  _vm._v(
+                    "\n                        " +
+                      _vm._s(this.datas.created_at) +
+                      "                    \n                    "
+                  )
+                ])
+              ])
             ])
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-md-8" }, [
-        _c("div", { staticClass: "card" }, [
-          _c("div", { staticClass: "card-header" }, [
-            _vm._v(_vm._s(this.datas.title))
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _vm._v(
-              "\n\n                    " +
-                _vm._s(this.datas.body) +
-                "\n\n                "
-            )
-          ])
+          _c("div", { staticClass: "col-md-8" }, [
+            _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _c("a", { attrs: { href: _vm.profileUrl + this.datas.aid } }, [
+                  _vm._v(_vm._s(this.datas.title))
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _vm._v(
+                  "\n\n                    " +
+                    _vm._s(this.datas.body) +
+                    "\n\n                "
+                )
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _vm._m(0)
         ])
-      ]),
-      _vm._v(" "),
-      _vm._m(0)
-    ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.error ? _c("div", [_vm._v("\n        Error\n    ")]) : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -37795,7 +37817,7 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("home-new-blog-component", { attrs: { id: _vm.id } }),
+      _c("home-new-blog-component", { attrs: { uid: _vm.uid } }),
       _vm._v(" "),
       _vm._l(_vm.range, function(n) {
         return _c("blog-component", {
@@ -37924,7 +37946,10 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm._l(_vm.aidArr.slice().reverse(), function(n) {
-        return _c("blog-format-component", { key: n, attrs: { aid: n } })
+        return _c("blog-format-component", {
+          key: n,
+          attrs: { aid: n, uid: _vm.uid }
+        })
       })
     ],
     2
