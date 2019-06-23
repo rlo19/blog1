@@ -1,9 +1,9 @@
 <template>
 
     <div>
-        <home-new-blog-component v-bind:id="id"></home-new-blog-component>
-
-        <blog-component v-bind:parentOffset="offset" v-for="n in range" :key="n"></blog-component>
+        <profile-user-component v-bind:uid="uid"></profile-user-component>
+        
+        <blog-component v-bind:uid="uid" v-bind:parentOffset="offset" v-for="n in range" :key="n"></blog-component>
     </div>
 
 </template>
@@ -18,7 +18,7 @@
             }
         },
         props: [
-            'id'
+            'uid'
         ],
         watch: {
             bottom: function() {

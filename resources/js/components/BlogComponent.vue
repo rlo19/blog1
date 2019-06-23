@@ -9,7 +9,7 @@
                             Image                       
                         </div>
                         <div class="col-md-12">
-                            {{data.name}}                     
+                            <a :href="data.id">{{data.name}}</a>                   
                         </div>
                         <div class="col-md-12">
                             {{data.created_at}}                    
@@ -20,7 +20,7 @@
 
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{data.title}}</div>
+                    <div class="card-header"><a :href="data.uid/data.aid">{{data.title}}</a></div>
 
                     <div class="card-body">
 
@@ -39,16 +39,18 @@
         data() {
             return {
                 datas: '',
-                offset: this.parentOffset,                             
+                offset: this.parentOffset, 
+                blogUrl: window.location.origin + '/profile/' + this.uid,
             }
         },
         props: [
-            'parentOffset'
+            'parentOffset',
+            'uid'
         ],        
         mounted() {
 
             axios
-              .get('api/articles/paginate/' + this.offset + '/')
+              .get(window.location.origin + '/api/articles/paginate/' + this.offset + '/')
               .then(response => {
                 this.datas = response.data;
               })

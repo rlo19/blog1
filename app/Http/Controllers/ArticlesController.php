@@ -7,6 +7,27 @@ use Illuminate\Http\Request;
 
 class ArticlesController extends Controller
 {
+    public function __construct() {
+
+        $this->select = [
+            'users.id', 
+            'users.name', 
+            'users.email',
+            'articles.id', 
+            'articles.title', 
+            'articles.body', 
+            'articles.created_at'
+        ];
+    }
+
+    public function userArticle(Request $request, $id, $aid)
+    {        
+
+        // print_r(Articles::find(7));die;
+
+        return view('userArticle', ['id' => $id]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,18 +35,8 @@ class ArticlesController extends Controller
      */
     public function index(Request $request)
     {
-        // return response()->json(Articles::orderBy('created_at', 'desc')->get());
 
-        $select = [
-            'users.id', 
-            'users.name', 
-            'users.email', 
-            'articles.title', 
-            'articles.body', 
-            'articles.created_at'
-        ];
-
-        $articles = Articles::select($select)
+        $articles = Articles::select($this->select)
                     ->leftJoin('users', 'articles.uid', '=', 'users.id')
                     ->orderBy('created_at', 'desc')
                     ->get();
@@ -71,16 +82,7 @@ class ArticlesController extends Controller
      */
     public function show($aid)
     {
-        $select = [
-            'users.id', 
-            'users.name', 
-            'users.email', 
-            'articles.title', 
-            'articles.body', 
-            'articles.created_at'
-        ];
-
-        $articles = Articles::select($select)
+        $articles = Articles::select($this->select)
                     ->leftJoin('users', 'articles.uid', '=', 'users.id')
                     ->where('articles.id', $aid)                    
                     ->orderBy('created_at', 'desc')
@@ -125,16 +127,7 @@ class ArticlesController extends Controller
 
     public function getArticlesByUserId($id) {
 
-        $select = [
-            'users.id', 
-            'users.name', 
-            'users.email', 
-            'articles.title', 
-            'articles.body', 
-            'articles.created_at'
-        ];
-
-        $articles = Articles::select($select)
+        $articles = Articles::select($this->select)
                     ->leftJoin('users', 'articles.uid', '=', 'users.id')
                     ->where('users.id', $id)
                     ->orderBy('created_at', 'desc')
@@ -145,16 +138,7 @@ class ArticlesController extends Controller
 
     public function showLimited($offset, $limit = 5) {
 
-        $select = [
-            'users.id', 
-            'users.name', 
-            'users.email', 
-            'articles.title', 
-            'articles.body', 
-            'articles.created_at'
-        ];
-
-        $articles = Articles::select($select)
+        $articles = Articles::select($this->select)
                     ->leftJoin('users', 'articles.uid', '=', 'users.id')
                     ->orderBy('created_at', 'desc')
                     ->limit($limit)

@@ -15,7 +15,8 @@
                         </div>                    
                     </div>
                 </div>
-            </div>            
+            </div>  
+            <div class="col-md-12"><br></div>           
         </div>
     </div>
 </template>
@@ -24,24 +25,35 @@
     export default {        
         data() {
             return {
-                data: ''                
+                data: '',
+                token: '',                
             }
         },
         props: [
-            'userId',
-            'apiToken'
+            'uid',
         ],
+        methods: {
+            getUserDetails: function() {
+
+                const auth = {
+                    headers: {'Authorization': 'Bearer ' + this.token} 
+                }
+
+                axios
+                  .get(window.location.origin + '/api/users/' + this.uid, auth)
+                  .then(response => {
+                    this.data = response.data;       
+                  })
+            }
+        },
         mounted() {
 
-            const auth = {
-                headers: {'Authorization': 'Bearer ' + this.apiToken} 
-            }
+            axios.get(window.location.origin + '/users/apitoken/' + this.uid)
+                 .then(response => {
+                    this.token = response.data.api_token;
 
-            axios
-              .get('api/users/' + this.userId, auth)
-              .then(response => {
-                this.data = response.data;                
-              })
+                    this.getUserDetails();
+                 })              
         }
     }
 </script>

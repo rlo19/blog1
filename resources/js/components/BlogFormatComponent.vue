@@ -46,7 +46,7 @@
         ],
         mounted() {
             axios
-              .get('api/articles/' + this.aid)
+              .get(window.location.origin + '/api/articles/' + this.aid)
               .then(response => {
                 this.datas = response.data;
               })

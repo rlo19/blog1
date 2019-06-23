@@ -45,9 +45,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uid)
     {
-        $user = User::find($id);
+        $user = User::find($uid);
 
         return response()->json($user);
     }

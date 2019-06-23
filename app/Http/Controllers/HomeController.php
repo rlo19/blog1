@@ -34,7 +34,12 @@ class HomeController extends Controller
     }
 
     public function profile(Request $request)
-    {
+    {        
         return view('profile');
+    }
+
+    public function userProfile(Request $request, $uid)
+    {        
+        return view('Userprofile', ['uid' => $uid]);
     }
 }

@@ -21,5 +21,8 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/profile', 'HomeController@profile')->name('profile');
+Route::get('/profile/{uid}', 'HomeController@userProfile');
+
+Route::get('/profile/{uid}/{aid}', 'ArticlesController@userArticle');
 
 Route::get('users/apitoken/{id}', 'UserController@getApiToken')->middleware('auth');

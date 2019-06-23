@@ -69,9 +69,9 @@
                     body: this.body
                   };
 
-                axios.post('api/articles/', form_data, auth)
+                axios.post(window.location.origin + '/api/articles/', form_data, auth)
                   .then(response => {
-
+                    
                     if(response.status === 200) {
                         this.aidArr[this.range] = response.data.id;
 
@@ -91,7 +91,7 @@
         },
         mounted() {
 
-            axios.get('/users/apitoken/' + this.uid)
+            axios.get(window.location.origin + '/users/apitoken/' + this.uid)
                  .then(response => {
                     this.token = response.data.api_token;
                  })
