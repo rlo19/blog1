@@ -1879,14 +1879,19 @@ __webpack_require__.r(__webpack_exports__);
     return {
       datas: '',
       offset: this.parentOffset,
-      blogUrl: window.location.origin + '/profile/' + this.uid
+      blogUrl: window.location.origin + '/profile/' + this.uid,
+      uidForPageinate: 0
     };
   },
   props: ['parentOffset', 'uid'],
   mounted: function mounted() {
     var _this = this;
 
-    axios.get(window.location.origin + '/api/articles/paginate/' + this.offset + '/').then(function (response) {
+    if (typeof this.uid !== 'undefined') {
+      this.uidForPageinate = this.uid;
+    }
+
+    axios.get(window.location.origin + '/api/articles/paginate/' + this.offset + '/' + this.uidForPageinate).then(function (response) {
       _this.datas = response.data;
     });
   }

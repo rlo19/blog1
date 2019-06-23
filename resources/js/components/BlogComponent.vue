@@ -41,6 +41,7 @@
                 datas: '',
                 offset: this.parentOffset, 
                 blogUrl: window.location.origin + '/profile/' + this.uid,
+                uidForPageinate: 0
             }
         },
         props: [
@@ -49,8 +50,12 @@
         ],        
         mounted() {
 
+            if(typeof this.uid !== 'undefined') {
+                this.uidForPageinate = this.uid
+            }
+            
             axios
-              .get(window.location.origin + '/api/articles/paginate/' + this.offset + '/')
+              .get(window.location.origin + '/api/articles/paginate/' + this.offset + '/' + this.uidForPageinate)
               .then(response => {
                 this.datas = response.data;
               })
